@@ -228,6 +228,10 @@
     </style>
 
     <style>
+        body {
+            overscroll-behavior: contain;
+        }
+
         .navbar {
             display: flex;
             position: fixed;
@@ -521,7 +525,7 @@
             <div class="item" data-item="4"></div>
         </div>
     </div>
-    <script>
+    <!-- <script>
         window.onload = function () {
             var slides = document.getElementById('slides');
             var current = 0;
@@ -529,59 +533,110 @@
             [...document.querySelectorAll('.item[data-item]')].map((x, i) => {
                 x.addEventListener('click', () => {
                     animating = false;
-                    current = i - 1;
-                    scroll();
+                    current = i;
+                    changeSlide(current);
                 })
             });
-            function scroll() {
-                if (!animating) {
-                    animating = true;
-                    current = Math.min(current + 1, 4);
-                    [...document.querySelectorAll('.item[data-item]')].map((x, i) => {
-                        if (i == current)
-                            x.className = "active item";
-                        else x.className = "item";
-                    });
 
-                    slides.style.transform = 'translateY(' + -current * 100 + '%)';
-                    setTimeout(() => {
-                        animating = false
-                    }, 1000);
-                }
+
+
+
+
+
+            const scrollState = {
+                marker: true,
+                counter1: 0,
+                counter2: 0,
+                direction: "",
+                lastTouchY: 0
+            };
+            function touchMove(e) {
+                scrollState.counter1 += 1;
+                currentTouchY = e.touches[0].clientY;
+                scrollState.direction = Boolean(scrollState.lastTouchY < currentTouchY);
+                if (scrollState.marker) {
+                    // if (!animating)
+                    scroll(scrollState.direction);
+                    scrollStart();
+                };
+                e.preventDefault();
+
+
             }
-            function scroll2(e) {
-                if (Math.abs(e.deltaY) > 400)
-                    if (!animating) {
-                        animating = true;
-                        setTimeout(() => {
-                            animating = false
-                        }, 1000);
-                        if (e.deltaY > 0)
-                            current = Math.min(current + 1, 4);
-                        else
-                            current = Math.max(current - 1, 0);
-
-                        [...document.querySelectorAll('.item[data-item]')].map((x, i) => {
-                            if (i == current)
-                                x.className = "active item";
-                            else x.className = "item";
-                        });
-
-                        slides.style.transform = 'translateY(' + -current * 100 + '%)';
-
-                    }
+            function touchStart(e) {
+                scrollState.lastTouchY = e.touches[0].clientY;
             }
 
-            window.addEventListener('wheel', scroll2, {
+            window.addEventListener('touchmove', touchMove);
+            window.addEventListener('touchstart', touchStart);
+
+            window.addEventListener('wheel', wheel, {
                 capture: true,
                 passive: true
             });
-            window.addEventListener('touchmove', scroll);
+
+            function wheel(e) {
+                scrollState.counter1 += 1;
+                e = e || window.event;
+                if ((e.deltaY || e.detail || e.wheelDelta) > 0) scrollState.direction = 0; else scrollState.direction = 1;
+                if (scrollState.marker) {
+                    // if (!animating)
+                    scroll(scrollState.direction);
+                    scrollStart();
+                };
+                return false;
+            }
+
+            function scrollStart() {
+                scrollState.marker = false;
+                scrollAct();
+            }
+
+            function scrollAct() {
+
+                scrollState.counter2 = scrollState.counter1;
+                setTimeout(function () {
+                    if (scrollState.counter2 == scrollState.counter1) {
+                        scrollEnd();
+                    }
+                    else
+                        scrollAct();
+                }, 50);
+            }
+            function scrollEnd() {
+                scrollState.marker = true;
+                scrollState.counter1 = 0;
+                scrollState.counter2 = 0;
+
+            }
+
+            function changeSlide(slide) {
+                Array.from(document.querySelectorAll('.item[data-item]'), (x, i) => {
+                    if (i == slide)
+                        x.className = "active item";
+                    else x.className = "item";
+                    animating = true;
+                    slides.style.transform = 'translateY(' + - slide * 100 + '%)';
+                    setTimeout(() => animating = false, 1000);
+
+                });
+            }
+            function scroll(direction) {
+                if (direction == 0)
+                    current = Math.min(current + 1, 4);
+                else
+                    current = Math.max(current - 1, 0);
+                changeSlide(current);
+            }
         }
 
+
+
+    </script> -->
+
+    <script>
+      Array.from||(Array.from=function(){var t=Object.prototype.toString,e=function(e){return"function"==typeof e||"[object Function]"===t.call(e)},n=Math.pow(2,53)-1,r=function(t){var e,r=(e=Number(t),isNaN(e)?0:0!==e&&isFinite(e)?(e>0?1:-1)*Math.floor(Math.abs(e)):e);return Math.min(Math.max(r,0),n)};return function(t){var n=Object(t);if(null==t)throw new TypeError("Array.from requires an array-like object - not null or undefined");var o,i=arguments.length>1?arguments[1]:void 0;if(void 0!==i){if(!e(i))throw new TypeError("Array.from: when provided, the second argument must be a function");arguments.length>2&&(o=arguments[2])}for(var c,a=r(n.length),u=e(this)?Object(new this(a)):new Array(a),l=0;l<a;)c=n[l],u[l]=i?void 0===o?i(c,l):i.call(o,c,l):c,l+=1;return u.length=a,u}}()),window.onload=function(){var t=document.getElementById("slides"),e=0;Array.from(document.querySelectorAll(".item[data-item]"),function(t,n){t.addEventListener("click",function(){!1,o(e=n)})});var n={marker:!0,counter1:0,counter2:0,direction:"",lastTouchY:0};function r(){n.marker=!1,function t(){n.counter2=n.counter1;setTimeout(function(){n.counter2==n.counter1?(n.marker=!0,n.counter1=0,n.counter2=0):t()},50)}()}function o(e){Array.from(document.querySelectorAll(".item[data-item]"),function(n,r){n.className=r==e?"active item":"item",!0,t.style.transform="translateY("+100*-e+"%)",setTimeout(function(){return!1},1e3)})}function i(t){o(e=0==t?Math.min(e+1,4):Math.max(e-1,0))}window.addEventListener("touchmove",function(t){n.counter1+=1,currentTouchY=t.touches[0].clientY,n.direction=Boolean(n.lastTouchY<currentTouchY),n.marker&&(i(n.direction),r())}),window.addEventListener("touchstart",function(t){n.lastTouchY=t.touches[0].clientY}),window.addEventListener("wheel",function(t){n.counter1+=1,((t=t||window.event).deltaY||t.detail||t.wheelDelta)>0?n.direction=0:n.direction=1;n.marker&&(i(n.direction),r());return!1},{capture:!0,passive:!0})};
     </script>
-
-
 </body>
 
 </html>
