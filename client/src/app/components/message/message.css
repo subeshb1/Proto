@@ -1,0 +1,17 @@
+.message {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 30%;
+  right: 30%;
+  /* align-items: center; */
+  max-height: 100vh;
+  overflow: auto;
+}
+
+.message div {
+  box-shadow: 0 0 2px grey;
+  padding: 50px 50px;
+  margin: 10px;
+}

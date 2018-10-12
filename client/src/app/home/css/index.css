@@ -1,0 +1,83 @@
+.container * {
+    color:white;
+}
+.container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.circle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 90px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.circle {
+    height: 50px;
+    width: 50px;
+    max-width: 50px;
+    max-height: 50px;
+    background: white;
+    width: 10vmax;
+    height: 10vmax;
+    border-radius: 100%;
+    padding: 10px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.circle:hover {
+    transform: scale(1.2);
+}
+
+h1 {
+    font-size: 10vmin;
+    text-align: center;
+}
+
+.slide.first {
+    display: flex;
+    flex-wrap: wrap;
+    background: #00366d;
+    background: radial-gradient(ellipse at center, #038aa9 0%, #026d8f 44%, #00366d 100%);
+}
+
+.slide.second {
+    display: flex;
+    flex-wrap: wrap;
+
+    background: #006d58;
+    background: radial-gradient(ellipse at center, #03a964 0%, #028f55 44%, #006d58 100%);
+}
+
+.slide.third {
+    display: flex;
+    flex-wrap: wrap;
+
+    background: #2f006d;
+    background: radial-gradient(ellipse at center, #7103a9 0%, #5a028f 44%, #2f006d 100%);
+}
+
+.slide.fourth {
+    display: flex;
+    flex-wrap: wrap;
+
+    background: #a90329;
+    background: radial-gradient(ellipse at center, #a90329 0%, #8f0222 44%, #6d0019 100%);
+}
+
+.slide.fifth {
+    display: flex;
+    flex-wrap: wrap;
+
+    background: #6d2d00;
+    background: radial-gradient(ellipse at center, #a94803 0%, #8f3e02 44%, #6d2d00 100%);
+}
